@@ -1,19 +1,23 @@
 # Handle data from NATFIX.txt
 
-from parse import parse_line
+from parse import parse_line, convert_dms_to_float
 
-# NATFIX is defined with many 1 column wide blank spaces. We roll that in to a field and rely on strip() to clean it up
+# NATFIX is defined with many 1 column wide blank separator. We roll them in to a data field and rely on strip() to clean it up
 NATFIX_RECORDS = ((None, 2),
                   ("id", 6),
-                  ("latitude", 8),
-                  ("longitude", 9),
+                  ("latitude_string", 8),
+                  ("longitude_string", 9),
                   (None, 1),
                   ("artcc_id", 4),
                   ("state_code", 3),
                   ("fix_navaid_type", 7))
 
 def parse_natfix_line(line):
-    return parse_line(line[:-1], NATFIX_RECORDS)
+    r = parse_line(line[:-1], NATFIX_RECORDS)
+    # add in lat/lon converted to a simple float
+    r['lat'] = convert_dms_to_float(r['latitude_string'])
+    r['lon'] = convert_dms_to_float(r['longitude_string'])
+    return r
 
 def parse_natfix_file(fp):
     # Skip the preamble two lines
@@ -21,6 +25,7 @@ def parse_natfix_file(fp):
     fp.readline()
     r = []
     for line in fp:
+        # $ indicates end of file
         if line[0] == '$':
             break
         # XXX(nelson): should probably use an iterator or do useful work instead of making a giant list
@@ -43,12 +48,14 @@ class NatfixTests(unittest.TestCase):
     def test_natfix_line(self):
         natfix = parse_natfix_line("I SUNOL 373620N 1214837W 'ZOA CA REP-PT \n")
         for (expected, key) in (('SUNOL', 'id'),
-                                ('373620N', 'latitude'),
-                                ('1214837W', 'longitude'),
+                                ('373620N', 'latitude_string'),
+                                ('1214837W', 'longitude_string'),
                                 ('ZOA', 'artcc_id'),
                                 ('CA', 'state_code'),
                                 ('REP-PT', 'fix_navaid_type')):
             self.assertEqual(expected, natfix[key])
+        self.assertAlmostEqual(37.605555555, natfix['lat'])
+        self.assertAlmostEqual(-121.8102777777, natfix['lon'])
     
     def test_natfix_file(self):
         from StringIO import StringIO

@@ -64,6 +64,24 @@ def parse_line(data, definition):
             r[name] = data[start:end].strip()
     return r
 
+def convert_dms_to_float(c):
+    "Convert a string coordinate like 0844402W or 335303N to a float like 33.8841666"
+    assert (len(c) == 8 and c[7] in 'WE') or (len(c) == 7 and c[6] in 'NS')
+    
+    if len(c) == 8:
+        d = int(c[0:3], 10)
+        m = int(c[3:5], 10)
+        s = int(c[5:7], 10)
+        sign = 1
+        if c[7] == 'W': sign = -1
+    else:
+        d = int(c[0:2], 10)
+        m = int(c[2:4], 10)
+        s = int(c[4:6], 10)
+        sign = 1
+        if c[6] == 'S': sign = -1
+    return sign * (float(d) + (m*60 + s) / 3600.0)
+
 import unittest
 class ParseTests(unittest.TestCase):
     def test_parse_line(self):
@@ -79,7 +97,11 @@ class ParseTests(unittest.TestCase):
         self.assertRaises(ParseException, parse_line, "abc", (("first", 2), ("second", 2)))
         self.assertRaises(ParseException, parse_line, "abcde", (("first", 2), ("second", 2)))
        
-        
+    def test_convert_dms_to_float(self):
+        self.assertAlmostEqual(33.884166666, convert_dms_to_float('335303N'))
+        self.assertAlmostEqual(-33.884166666, convert_dms_to_float('335303S'))
+        self.assertAlmostEqual(-84.73388888888, convert_dms_to_float('0844402W'))
+        self.assertAlmostEqual(84.73388888888, convert_dms_to_float('0844402E'))        
         
     def test_build_list_of_lengths(self):
         from django.utils.datastructures import SortedDict
