@@ -29,9 +29,9 @@ RMK_RECORD_LENGTHS = calculate_lengths(build_list_of_lengths(RMK_RECORDS))
 
 # borrowed from http://code.activestate.com/recipes/65224/
 def split_at(theline, cuts, lastfield=True):
-    pieces = [ theline[i:j] for i, j in zip([0]+cuts, cuts) ]
+    pieces = [ theline[i:j].strip() for i, j in zip([0]+cuts, cuts) ]
     if lastfield:
-        pieces.append(theline[cuts[-1]:])
+        pieces.append(theline[cuts[-1]:].strip())
     return pieces
 
 def correlate(data, definition):
@@ -101,7 +101,7 @@ class AptTests(unittest.TestCase):
         self.assertRaises(Exception, parse_apt_line, "invalid input")
         
         # Test data from 56DySubscription_November_18__2010_-_January_13__2011
-        apt = parse_apt_line(r'APT06721.*A   AIRPORT      LWC 11/18/2010ACENONEKSKANSAS              DOUGLAS              KSLAWRENCE                                LAWRENCE MUNI                             PUPUCITY OF LAWRENCE                   6 EAST 6TH STREET                                                       LAWRENCE, KS 66044                               785-832-3400STEVE BENNETT                      6 EAST 6TH STREET                                                       LAWRENCE, KS 66044                               785-832-312639-00-40.0000N 140440.0000N095-12-59.3000W342779.3000WE  833S04E2005    KANSAS CITY                   03N    486ZKC ZCKKANSAS CITY                                                        NICT WICHITA                                       1-800-WX-BRIEF                                                    LWC Y04/1940O                NGY    NO OBJECTION NNNY                        S S10292008        100LLA                                  MAJORMAJORHIGH    HIGH    DUSK-DAWNN123.000                                   123.000Y   CG N 049004001001   000               00210001365001680000015009/30/20083RD PARTY SURVEY07/11/20083RD PARTY SURVEY07/11/2008 HGR,TIE     AMB,INSTR,RNTL,SALES                                                   Y-LKLWC   \n')
+        apt = parse_apt_line(r'APT06721.*A   AIRPORT      LWC 11/18/2010ACENONEKSKANSAS              DOUGLAS              KSLAWRENCE                                LAWRENCE MUNI                             PUPUCITY OF LAWRENCE                   6 EAST 6TH STREET                                                       LAWRENCE, KS 66044                               785-832-3400STEVE BENNETT                      6 EAST 6TH STREET                                                       LAWRENCE, KS 66044                               785-832-312639-00-40.0000N 140440.0000N095-12-59.3000W342779.3000WE  833S04E2005    KANSAS CITY                   03N    486ZKC ZCKKANSAS CITY                                                        NICT WICHITA                                       1-800-WX-BRIEF                                                    LWC Y04/1940O                NGY    NO OBJECTION NNNY                        S S10292008        100LLA                                  MAJORMAJORHIGH    HIGH    DUSK-DAWNN123.000                                   123.000Y   CG N 049004001001   000               00210001365001680000015009/30/20083RD PARTY SURVEY07/11/20083RD PARTY SURVEY07/11/2008 HGR,TIE     AMB,INSTR,RNTL,SALES                                                   Y-LKLWC   ' + '\n')
         self.assertEqual('APT', apt['record_type'])
         self.assertEqual('LAWRENCE', apt['associated_city'])
         self.assertEqual('123.000', apt['common_traffic_advisory_frequency'])
