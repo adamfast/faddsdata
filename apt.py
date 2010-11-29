@@ -42,17 +42,21 @@ def correlate(data, definition):
         count += 1
     return combined
 
+def parse_apt_line(line):
+    if line[:3] == 'APT':
+        return correlate(split_at(line, APT_RECORD_LENGTHS), APT_RECORDS)
+    elif line[:3] == 'ATT':
+        return correlate(split_at(line, ATT_RECORD_LENGTHS), ATT_RECORDS)
+    elif line[:3] == 'RWY':
+        return correlate(split_at(line, RWY_RECORD_LENGTHS), RWY_RECORDS)
+    elif line[:3] == 'RMK':
+        return correlate(split_at(line, RMK_RECORD_LENGTHS), RMK_RECORDS)
+    else:
+        raise Exception("Line type %s not recognized" % line[:3])
+
 if __name__ == '__main__':
     path = '/Users/nelson/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
     raw = open(path + 'APT.txt')
 
     for line in raw:
-        if line[:3] == 'APT':
-            val = correlate(split_at(line, APT_RECORD_LENGTHS), APT_RECORDS)
-        elif line[:3] == 'ATT':
-            val = correlate(split_at(line, ATT_RECORD_LENGTHS), ATT_RECORDS)
-        elif line[:3] == 'RWY':
-            val = correlate(split_at(line, RWY_RECORD_LENGTHS), RWY_RECORDS)
-        elif line[:3] == 'RMK':
-            val = correlate(split_at(line, RMK_RECORD_LENGTHS), RMK_RECORDS)
-
+        val = parse_apt_line(line)
