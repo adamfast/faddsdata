@@ -1,1 +1,1 @@
-from faddsdata.format_definitions.apt import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS
+from apt import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS

@@ -1,6 +1,6 @@
 # Handle data from APT.txt
 
-from faddsdata.format_definitions import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS
+from format_definitions import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS
 
 def build_list_of_lengths(definition):
     """Take a SortedDict and iterate over it, building a list of field lengths."""
@@ -43,7 +43,7 @@ def correlate(data, definition):
     return combined
 
 if __name__ == '__main__':
-    path = '/Users/afast/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
+    path = '/Users/nelson/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
     raw = open(path + 'APT.txt')
 
     for line in raw:
@@ -55,4 +55,4 @@ if __name__ == '__main__':
             val = correlate(split_at(line, RWY_RECORD_LENGTHS), RWY_RECORDS)
         elif line[:3] == 'RMK':
             val = correlate(split_at(line, RMK_RECORD_LENGTHS), RMK_RECORDS)
-        import pdb; pdb.set_trace()
+
