@@ -34,8 +34,53 @@ def correlate(data, definition):
         count += 1
     return combined
 
+class ParseException(Exception): pass
+
+# Alternative parser by Nelson. I think this is simpler?
+def parse_line(data, definition):
+    """Parse a line of fixed width text according to a definition, returning a dictionary of stripped tokens
+    Definition is a list of tuples: ("key", width)
+    
+    parse_fixed_width_line("abcdefghij", (("first", 2), ("second", 3), (None, 1), ("third", 4)))
+    >>> { "first": "ab", "second": "cde", "third": "ghij" }"""
+
+    # Calculate the start and end of every field
+    splits = []
+    start = 0
+    end = 0
+    for width in zip(*definition)[1]:
+        end += width
+        splits.append((start, end))
+        start += width
+
+    # Check that the input line is exactly the right length, or right length plus a newline
+    if not (len(data) == end or (len(data) == end + 1 and data[-1] == "\n")):
+        raise ParseException("Expected length %d, got length %d" % (end, len(data)))
+    
+    # Return a dictionary of each extracted field
+    r = {}
+    for (name, _), (start, end) in zip(definition, splits):
+        if name is not None:
+            r[name] = data[start:end].strip()
+    return r
+
 import unittest
 class ParseTests(unittest.TestCase):
+    def test_parse_line(self):
+        # normal input
+        self.assertEqual({ "first": "ab", "second": "cde", "third": "ghij" },
+                         parse_line("abcdefghij", (("first", 2), ("second", 3), (None, 1), ("third", 4))))
+        self.assertEqual({ "first": "a", "second": "cd" },
+                         parse_line("a cd", (("first", 2), ("second", 2))))
+        # normal input with a newline
+        self.assertEqual({ "first": "ab", "second": "cd" },
+                         parse_line("abcd\n", (("first", 2), ("second", 2))))
+        # broken input
+        self.assertRaises(ParseException, parse_line, "abc", (("first", 2), ("second", 2)))
+        self.assertRaises(ParseException, parse_line, "abcde", (("first", 2), ("second", 2)))
+       
+        
+        
     def test_build_list_of_lengths(self):
         from django.utils.datastructures import SortedDict
         self.assertEqual([], build_list_of_lengths(SortedDict()))

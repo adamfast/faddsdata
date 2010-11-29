@@ -5,6 +5,6 @@ Easier to run via IDE or "python2.6 -m unittest", but for Python 2.5 this may be
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    for module in ("parse", "apt",):
+    for module in ("parse", "apt", "natfix",):
         suite.addTest(unittest.defaultTestLoader.loadTestsFromName(module))
     unittest.TextTestRunner().run(suite)    
