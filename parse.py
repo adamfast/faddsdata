@@ -68,3 +68,9 @@ class ParseTests(unittest.TestCase):
         self.assertEqual("bc", val["second"])
         self.assertEqual("def", val["third"])
         self.assertEqual("ghijk", val["last"])
+        
+    def test_wrong_line_length(self):
+        "Test that short and long lines are caught"
+        # XXX(nelson): would be nice to catch this, just need to be careful with whitespace
+        pass
+    
