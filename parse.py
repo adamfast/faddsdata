@@ -47,6 +47,18 @@ def convert_dms_to_float(c):
         if c[6] == 'S': sign = -1
     return sign * (float(d) + (m*60 + s) / 3600.0)
 
+def convert_dashed_dms_to_float(c):
+    "Convert a coordinate like 37-32-29.770N to 32.49616666666667"
+    
+    # western and southern hemisphers
+    assert(c[-1] in 'NSEW')
+    sign = 1
+    if c[-1] == 'W' or c[-1] == 'S':
+        sign = -1
+    
+    d, m, s = c[:-1].split('-')
+    return sign * (int(d) + (int(m) * 60 + float(s)) / 3600.0)
+
 import unittest
 class ParseTests(unittest.TestCase):
     def test_parse_line(self):
@@ -67,4 +79,10 @@ class ParseTests(unittest.TestCase):
         self.assertAlmostEqual(-33.884166666, convert_dms_to_float('335303S'))
         self.assertAlmostEqual(-84.73388888888, convert_dms_to_float('0844402W'))
         self.assertAlmostEqual(84.73388888888, convert_dms_to_float('0844402E'))        
-        
+    
+    def test_convert_dashed_dms_to_float(self):
+        self.assertAlmostEqual(33.884166666, convert_dashed_dms_to_float('33-53-03.000N'))
+        self.assertAlmostEqual(-33.884166666, convert_dashed_dms_to_float('33-53-03.000S'))
+        self.assertAlmostEqual(-84.73388888888, convert_dashed_dms_to_float('084-44-02.000W'))
+        self.assertAlmostEqual(84.73388888888, convert_dashed_dms_to_float('084-44-02.000E'))
+        self.assertAlmostEqual(1.016975, convert_dashed_dms_to_float('01-01-01.110N'))

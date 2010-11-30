@@ -1,10 +1,17 @@
 # Handle data from APT.txt
 
 from format_definitions import APT_RECORD_MAP
-from parse import parse_line
+from parse import parse_line, convert_dashed_dms_to_float
 
 def parse_apt_line(line):
-    return parse_line(line, APT_RECORD_MAP[line[:3]])
+    "Parse a single line in the APT file"
+    record_type = line[:3]
+    r = parse_line(line, APT_RECORD_MAP[record_type])
+    # Parse out useful coordinates
+    if (record_type == 'APT'):
+        r['lat'] = convert_dashed_dms_to_float(r['point_latitude_formatted'])
+        r['lon'] = convert_dashed_dms_to_float(r['point_longitude_formatted'])
+    return r
 
 if __name__ == '__main__':
     path = '/Users/nelson/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
@@ -29,6 +36,7 @@ class AptTests(unittest.TestCase):
         self.assertEqual('LWC', apt['location_identifier'])
         self.assertEqual('39-00-40.0000N', apt['point_latitude_formatted'])
         self.assertEqual('140440.0000N', apt['point_latitude_seconds'])
+        self.assertAlmostEqual(39.01111111, apt['lat'])
 
     def test_att(self):
         att = parse_apt_line('ATT06721.*A   KS 1ALL/ALL/0800-2000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \n')
