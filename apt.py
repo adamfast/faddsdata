@@ -1,25 +1,10 @@
 # Handle data from APT.txt
 
-from format_definitions import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS
-from parse import build_list_of_lengths, calculate_lengths, split_at, correlate
-
-# calculate cumulative length from the list of lengths
-APT_RECORD_LENGTHS = calculate_lengths(build_list_of_lengths(APT_RECORDS))
-ATT_RECORD_LENGTHS = calculate_lengths(build_list_of_lengths(ATT_RECORDS))
-RWY_RECORD_LENGTHS = calculate_lengths(build_list_of_lengths(RWY_RECORDS))
-RMK_RECORD_LENGTHS = calculate_lengths(build_list_of_lengths(RMK_RECORDS))
+from format_definitions import APT_RECORD_MAP
+from parse import parse_line
 
 def parse_apt_line(line):
-    if line[:3] == 'APT':
-        return correlate(split_at(line, APT_RECORD_LENGTHS), APT_RECORDS)
-    elif line[:3] == 'ATT':
-        return correlate(split_at(line, ATT_RECORD_LENGTHS), ATT_RECORDS)
-    elif line[:3] == 'RWY':
-        return correlate(split_at(line, RWY_RECORD_LENGTHS), RWY_RECORDS)
-    elif line[:3] == 'RMK':
-        return correlate(split_at(line, RMK_RECORD_LENGTHS), RMK_RECORDS)
-    else:
-        raise Exception("Line type %s not recognized" % line[:3])
+    return parse_line(line, APT_RECORD_MAP[line[:3]])
 
 if __name__ == '__main__':
     path = '/Users/nelson/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
