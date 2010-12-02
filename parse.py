@@ -9,6 +9,7 @@ def parse_line(data, definition):
     parse_fixed_width_line("abcdefghij", (("first", 2), ("second", 3), (None, 1), ("third", 4)))
     >>> { "first": "ab", "second": "cde", "third": "ghij" }"""
 
+    data = data.replace('\r', '').replace('\n', '')
     # Calculate the start and end of every field
     splits = []
     start = 0
@@ -19,7 +20,7 @@ def parse_line(data, definition):
         start += width
 
     # Check that the input line is exactly the right length, or right length plus a newline
-    if not (len(data) == end or (len(data) == end + 1 and data[-1] == "\n")):
+    if not (len(data) == end):
         raise ParseException("Expected length %d, got length %d" % (end, len(data)))
     
     # Return a dictionary of each extracted field
