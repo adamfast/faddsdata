@@ -1,4 +1,5 @@
 "Utility functions for parsing FADDS fixed width data"
+import datetime
 
 class ParseException(Exception): pass
 
@@ -59,6 +60,19 @@ def convert_dashed_dms_to_float(c):
     
     d, m, s = c[:-1].split('-')
     return sign * (int(d) + (int(m) * 60 + float(s)) / 3600.0)
+
+def convert_boolean(c):
+    "Convert the Y/N from the FAA into Python True/False"
+    if c == 'Y':
+        return True
+    return False
+
+def convert_month_year(c):
+    "Convert the MM/YYYY from the FAA into a Python Date object."
+    try:
+        return datetime.datetime.strptime(c, "%m/%Y").date()
+    except:
+        return None
 
 import unittest
 class ParseTests(unittest.TestCase):
