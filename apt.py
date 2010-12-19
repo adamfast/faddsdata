@@ -11,6 +11,23 @@ def parse_apt_line(line):
     if (record_type == 'APT'):
         r['lat'] = convert_dashed_dms_to_float(r['point_latitude_formatted'])
         r['lon'] = convert_dashed_dms_to_float(r['point_longitude_formatted'])
+    if (record_type == 'RWY'):
+        if getattr(r, 'base_end_latitude_physical_runway_end_formatted', False):
+            r['base_end_lat'] = convert_dashed_dms_to_float(r['base_end_latitude_physical_runway_end_formatted'])
+        if getattr(r, 'base_end_longitude_physical_runway_end_formatted', False):
+            r['base_end_lon'] = convert_dashed_dms_to_float(r['base_end_longitude_physical_runway_end_formatted'])
+        if getattr(r, 'base_end_latitude_displaced_threshold_formatted', False):
+            r['base_end_displaced_threshold_lat'] = convert_dashed_dms_to_float(r['base_end_latitude_displaced_threshold_formatted'])
+        if getattr(r, 'base_end_longitude_displaced_threshold_formatted', False):
+            r['base_end_displaced_threshold_lon'] = convert_dashed_dms_to_float(r['base_end_longitude_displaced_threshold_formatted'])
+        if getattr(r, 'reciprocal_end_latitude_physical_runway_end_formatted', False):
+            r['reciprocal_end_lat'] = convert_dashed_dms_to_float(r['reciprocal_end_latitude_physical_runway_end_formatted'])
+        if getattr(r, 'reciprocal_end_longitude_physical_runway_end_formatted', False):
+            r['reciprocal_end_lon'] = convert_dashed_dms_to_float(r['reciprocal_end_longitude_physical_runway_end_formatted'])
+        if getattr(r, 'reciprocal_end_latitude_physical_runway_end_formatted', False):
+            r['reciprocal_end_displaced_threshold_lat'] = convert_dashed_dms_to_float(r['reciprocal_end_latitude_physical_runway_end_formatted'])
+        if getattr(r, 'reciprocal_end_longitude_physical_runway_end_formatted', False):
+            r['reciprocal_end_displaced_threshold_lon'] = convert_dashed_dms_to_float(r['reciprocal_end_longitude_physical_runway_end_formatted'])
     return r
 
 if __name__ == '__main__':
