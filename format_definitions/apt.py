@@ -216,7 +216,7 @@ RWY_RECORDS = (
     ('base_end_touchdown_zone_elevation_source', 16),
     ('base_end_touchdown_zone_elevation_source_date', 10),
     ('base_end_takeoff_run_available_feet', 5),
-    ('base_end_takeoff distance_available_feet', 5),
+    ('base_end_takeoff_distance_available_feet', 5),
     ('base_end_aclt_stop_distance_available_feet', 5),
     ('base_end_landing_distance_available_feet', 5),
     ('base_end_available_landing_distance_lahso_feet', 5),
