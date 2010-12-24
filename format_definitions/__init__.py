@@ -1,1 +1,3 @@
 from apt import APT_RECORDS, ATT_RECORDS, RWY_RECORDS, RMK_RECORDS, APT_RECORD_MAP
+from arb import ARB_RECORDS
+from awos import AWOS_RECORDS

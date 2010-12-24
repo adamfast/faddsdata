@@ -74,6 +74,13 @@ def convert_month_year(c):
     except:
         return None
 
+def convert_date(c):
+    "Convert the MM/DD/YYYY from the FAA into a Python Date object."
+    try:
+        return datetime.datetime.strptime(c, "%m/%d/%Y").date()
+    except:
+        return None
+
 import unittest
 class ParseTests(unittest.TestCase):
     def test_parse_line(self):

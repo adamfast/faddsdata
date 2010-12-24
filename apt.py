@@ -53,6 +53,7 @@ class AptTests(unittest.TestCase):
         self.assertEqual('LWC', apt['location_identifier'])
         self.assertEqual('39-00-40.0000N', apt['point_latitude_formatted'])
         self.assertEqual('140440.0000N', apt['point_latitude_seconds'])
+        self.assertEqual('049', apt['singles_based'])
         self.assertAlmostEqual(39.01111111, apt['lat'])
 
     def test_att(self):
