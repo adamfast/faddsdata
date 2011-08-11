@@ -1,7 +1,7 @@
 # Handle data from APT.txt
 
 from format_definitions import APT_RECORD_MAP
-from parse import parse_line, convert_dashed_dms_to_float
+from parse import parse_line, convert_dashed_dms_to_float, convert_boolean
 
 def parse_apt_line(line):
     "Parse a single line in the APT file"
@@ -11,6 +11,7 @@ def parse_apt_line(line):
     if (record_type == 'APT'):
         r['lat'] = convert_dashed_dms_to_float(r['point_latitude_formatted'])
         r['lon'] = convert_dashed_dms_to_float(r['point_longitude_formatted'])
+        r['control_tower'] = convert_boolean(r['control_tower'])
     if (record_type == 'RWY'):
         if r.get('base_end_latitude_physical_runway_end_formatted', False):
             r['base_end_lat'] = convert_dashed_dms_to_float(r['base_end_latitude_physical_runway_end_formatted'])
