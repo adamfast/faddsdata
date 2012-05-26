@@ -13,7 +13,7 @@ APT_RECORDS = (
     ('county_name', 21),
     ('county_state_post_office_code', 2),
     ('associated_city', 40),
-    ('facility_name', 42),
+    ('facility_name', 50),
     ('ownership_type', 2),
     ('use_type', 2),
     ('owners_name', 35),
@@ -29,7 +29,7 @@ APT_RECORDS = (
     ('point_longitude_formatted', 15),
     ('point_longitude_seconds', 12),
     ('point_determination_method', 1),
-    ('elevation_msl', 5),
+    ('elevation_msl', 7),
     ('elevation_determination_method', 1),
     ('magnetic_variation', 3),
     ('magnetic_variation_epoch_year', 4),
@@ -63,8 +63,8 @@ APT_RECORDS = (
     ('customs_landing_rights', 1),
     ('military_civil_joint_use', 1),
     ('military_landing_rights', 1),
-    ('national_emergency_use_no_longer_maintained', 18),
-    ('military_departments_interest_for_emergencies_no_longer_maintained', 6),
+#    ('national_emergency_use_no_longer_maintained', 18),
+#    ('military_departments_interest_for_emergencies_no_longer_maintained', 6),
     ('airport_inspection_method', 2),
     ('agency_group_performing_inspection', 1),
     ('last_physical_inspection_date', 8),
@@ -74,9 +74,10 @@ APT_RECORDS = (
     ('powerplant_repair', 5),
     ('bottled_oxygen_available', 8),
     ('bulk_oxygen_available', 8),
-    ('lighting_schedule', 9),
+    ('lighting_schedule', 7),
+    ('beacon_lighting_schedule', 7),
     ('control_tower', 1),
-    ('unicom_frequencies', 42),
+    ('unicom_frequencies', 7),
     ('common_traffic_advisory_frequency', 7),
     ('segmented_circle', 4),
     ('beacon_color', 3),
@@ -105,6 +106,7 @@ APT_RECORDS = (
     ('other_services_available', 71),
     ('wind_indicator', 3),
     ('icao_identifier', 7),
+    (None, 310),  # filler
 )
 
 ATT_RECORDS = (
@@ -113,7 +115,7 @@ ATT_RECORDS = (
     ('state_post_office_code', 2),
     ('attendace_schedule_sequence', 2),
     ('attendance_schedule', 108),
-    (None, 1135),
+    (None, 1401),  # filler
 )
 
 RWY_RECORDS = (
@@ -133,7 +135,7 @@ RWY_RECORDS = (
     ('base_end_righthand_traffic', 1),
     ('base_end_runway_markings_type', 5),
     ('base_end_runway_markings_condition', 1),
-    ('base_end_aircraft_arresting_device', 6),
+#    ('base_end_aircraft_arresting_device', 6),
     ('base_end_latitude_physical_runway_end_formatted', 15),
     ('base_end_latitude_physical_runway_end_seconds', 12),
     ('base_end_longitude_physical_runway_end_formatted', 15),
@@ -168,7 +170,7 @@ RWY_RECORDS = (
     ('reciprocal_end_righthand_traffic', 1),
     ('reciprocal_end_runway_markings', 5),
     ('reciprocal_end_runway_markings_condition', 1),
-    ('reciprocal_end_aircraft_arresting_device', 6),
+#    ('reciprocal_end_aircraft_arresting_device', 6),
     ('reciprocal_end_latitude_physical_runway_end_formatted', 15),
     ('reciprocal_end_latitude_physical_runway_end_seconds', 12),
     ('reciprocal_end_longitude_physical_runway_end_formatted', 15),
@@ -253,7 +255,17 @@ RWY_RECORDS = (
     ('reciprocal_end_longitude_lahso_point_seconds', 12),
     ('reciprocal_end_lahso_point_source', 16),
     ('reciprocal_end_lahso_point_source_date', 10),
-    (None, 108),
+    (None, 386),
+)
+
+ARRESTING_RECORDS = (
+    ('record_type', 3),
+    ('facility_site_number', 11),
+    ('state_post_office_code', 2),
+    ('runway_identification', 7),
+    ('runway_end_identifier', 3),
+    ('aircraft_arresting_device_type', 9),
+    (None, 1492),
 )
 
 RMK_RECORDS = (
@@ -261,13 +273,13 @@ RMK_RECORDS = (
     ('facility_site_number', 11),
     ('state_post_office_code', 2),
     ('element_name', 11),
-    ('element_text', 700),
-    (None, 534),
+    ('element_text', 1500),
 )
 
 # Maps the first field of APT.txt to the record type
 APT_RECORD_MAP = {
     'APT': APT_RECORDS,
+    'ARS': ARRESTING_RECORDS,
     'ATT': ATT_RECORDS,
     'RWY': RWY_RECORDS,
     'RMK': RMK_RECORDS
