@@ -7,10 +7,11 @@ def parse_awos_line(line):
     "Parse a single line in the AWOS file"
     r = parse_line(line, AWOS_RECORDS)
     # Parse out useful coordinates
-    if r['latitude']:
-        r['lat'] = convert_dashed_dms_to_float(r['latitude'])
-    if r['longitude']:
-        r['lon'] = convert_dashed_dms_to_float(r['longitude'])
+    if r['record_type'] == 'AWOS1':  # only if it's a record type 1
+        if r['latitude']:
+            r['lat'] = convert_dashed_dms_to_float(r['latitude'])
+        if r['longitude']:
+            r['lon'] = convert_dashed_dms_to_float(r['longitude'])
     return r
 
 if __name__ == '__main__':
