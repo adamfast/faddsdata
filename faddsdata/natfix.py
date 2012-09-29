@@ -8,8 +8,9 @@ NATFIX_RECORDS = ((None, 2),
                   ("latitude_string", 8),
                   ("longitude_string", 9),
                   (None, 1),
-                  ("artcc_id", 4),
+                  ("artcc_id", 5),
                   ("state_code", 3),
+                  ("icao_code", 3),
                   ("fix_navaid_type", 7))
 
 def parse_natfix_line(line):
