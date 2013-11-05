@@ -28,7 +28,7 @@ def parse_line(data, definition):
     r = {}
     for (name, _), (start, end) in zip(definition, splits):
         if name is not None:
-            r[name] = data[start:end].strip()
+            r[name] = data[start:end].strip().replace('\xfa', '')
     return r
 
 def convert_dms_to_float(c):
