@@ -106,7 +106,7 @@ APT_RECORDS = (
     ('other_services_available', 71),
     ('wind_indicator', 3),
     ('icao_identifier', 7),
-    (None, 310),  # filler
+    (None, 312),  # filler
 )
 
 ATT_RECORDS = (
@@ -115,7 +115,7 @@ ATT_RECORDS = (
     ('state_post_office_code', 2),
     ('attendace_schedule_sequence', 2),
     ('attendance_schedule', 108),
-    (None, 1401),  # filler
+    (None, 1403),  # filler
 )
 
 RWY_RECORDS = (
@@ -255,7 +255,7 @@ RWY_RECORDS = (
     ('reciprocal_end_longitude_lahso_point_seconds', 12),
     ('reciprocal_end_lahso_point_source', 16),
     ('reciprocal_end_lahso_point_source_date', 10),
-    (None, 386),
+    (None, 388),
 )
 
 ARRESTING_RECORDS = (
@@ -265,14 +265,14 @@ ARRESTING_RECORDS = (
     ('runway_identification', 7),
     ('runway_end_identifier', 3),
     ('aircraft_arresting_device_type', 9),
-    (None, 1492),
+    (None, 1494),
 )
 
 RMK_RECORDS = (
     ('record_type', 3),
     ('facility_site_number', 11),
     ('state_post_office_code', 2),
-    ('element_name', 11),
+    ('element_name', 13),
     ('element_text', 1500),
 )
 
@@ -284,5 +284,3 @@ APT_RECORD_MAP = {
     'RWY': RWY_RECORDS,
     'RMK': RMK_RECORDS
 }
-
-    
