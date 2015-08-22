@@ -1,4 +1,8 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
 "Utility functions for parsing FADDS fixed width data"
+
 import datetime
 
 class ParseException(Exception): pass
@@ -28,7 +32,7 @@ def parse_line(data, definition):
     r = {}
     for (name, _), (start, end) in zip(definition, splits):
         if name is not None:
-            r[name] = data[start:end].strip().replace('\xfa', '')
+            r[name] = data[start:end].strip().replace('\xfa', '').replace('\xd1', 'N').replace('\xbf', '').replace('\xb4', '').replace('\xb0', '')
     return r
 
 def convert_dms_to_float(c):
