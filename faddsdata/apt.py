@@ -1,7 +1,7 @@
 # Handle data from APT.txt
 
-from format_definitions import APT_RECORD_MAP
-from parse import parse_line, convert_dashed_dms_to_float, convert_boolean
+from faddsdata.format_definitions import APT_RECORD_MAP
+from faddsdata.parse import parse_line, convert_dashed_dms_to_float, convert_boolean
 
 def parse_apt_line(line):
     "Parse a single line in the APT file"

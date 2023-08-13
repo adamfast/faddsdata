@@ -19,7 +19,7 @@ def parse_line(data, definition):
     splits = []
     start = 0
     end = 0
-    for width in zip(*definition)[1]:
+    for width in list(zip(*definition))[1]:
         end += width
         splits.append((start, end))
         start += width

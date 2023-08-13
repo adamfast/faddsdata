@@ -1,6 +1,6 @@
 # Handle data from NATFIX.txt
 
-from parse import parse_line, convert_dms_to_float
+from faddsdata.parse import parse_line, convert_dms_to_float
 
 # NATFIX is defined with many 1 column wide blank separator. We roll them in to a data field and rely on strip() to clean it up
 NATFIX_RECORDS = ((None, 2),
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     path = '/Users/nelson/Downloads/56DySubscription_November_18__2010_-_January_13__2011/'
     raw = open(path + 'NATFIX.txt')
     natfixes = parse_natfix_file(raw)
-    print "%d records found in NATFIX.txt" % len(natfixes)
+    print("%d records found in NATFIX.txt" % len(natfixes))
         
 import unittest
 # Test data from 56DySubscription_November_18__2010_-_January_13__2011
